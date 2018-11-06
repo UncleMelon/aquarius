@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ScalaCompilerConfiguration">
+    <profile name="sbt 1" modules="practice-based-learning_7156,algorithms-learning,practice-based-learning,spark-learning,functional-features-learning,concurrency-learning" />
+  </component>
+</project>

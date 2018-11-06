@@ -1,0 +1,23 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Scala template
+*.class
+*.log
+### PlayFramework template
+# Ignore Play! working directory #
+bin/
+/db
+.eclipse
+/lib/
+/logs/
+/modules
+/project/project
+/project/target
+/target
+tmp/
+test-result
+server.pid
+*.eml
+/dist/
+.cache
+## add by matthew to remove the target directory in subprojects
+/*/target
