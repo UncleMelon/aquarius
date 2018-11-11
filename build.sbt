@@ -11,7 +11,7 @@ lazy val commonSettings = Seq(
 // Set aggregate so that the command sent to root is broadcast to webservice and dal too
 
 lazy val root = (project in file("."))
-  .aggregate(algorithms, concurrency, functional, spark)
+  .aggregate(algorithms, concurrency, functional, spark, scala)
 
 lazy val algorithms = (project in file("algorithms-learning"))
   .settings(commonSettings)
@@ -24,3 +24,7 @@ lazy val functional = (project in file("functional-features-learning"))
 
 lazy val spark = (project in file("spark-learning"))
   .settings(commonSettings)
+  
+ lazy val scala = (project in file("scala-learning"))
+  .settings(commonSettings)
+

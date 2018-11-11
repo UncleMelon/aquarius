@@ -10,6 +10,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/functional-features-learning.iml" filepath="$PROJECT_DIR$/.idea/modules/functional-features-learning.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/practice-based-learning.iml" filepath="$PROJECT_DIR$/.idea/modules/practice-based-learning.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/root-build.iml" filepath="$PROJECT_DIR$/.idea/modules/root-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scala-build.iml" filepath="$PROJECT_DIR$/.idea/modules/scala-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scala-learning.iml" filepath="$PROJECT_DIR$/.idea/modules/scala-learning.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/spark-build.iml" filepath="$PROJECT_DIR$/.idea/modules/spark-build.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/spark-learning.iml" filepath="$PROJECT_DIR$/.idea/modules/spark-learning.iml" />
     </modules>

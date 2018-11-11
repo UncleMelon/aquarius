@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id="spark-build [file:/C:/Users/Matthew/IdeaProjects/practice-based-learning/]" external.linked.project.path="$MODULE_DIR$/../../spark-learning/project" external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" sbt.imports="SUB:DOLLAR4a770c87555d73f581b8.`algorithms`, SUB:DOLLAR4a770c87555d73f581b8.`concurrency`, SUB:DOLLAR4a770c87555d73f581b8.`functional`, SUB:DOLLAR4a770c87555d73f581b8.`root`, SUB:DOLLAR4a770c87555d73f581b8.`scala`, SUB:DOLLAR4a770c87555d73f581b8.`spark`, _root_.sbt.Keys._, _root_.sbt.ScriptedPlugin.autoImport._, _root_.sbt._, _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.ScriptedPlugin, _root_.sbt.plugins.SbtPlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbt.plugins.Giter8TemplatePlugin, _root_.scala.xml.{TopScope=&gt;SUB:DOLLARscope}" sbt.resolvers="C:\Users\Matthew\.ivy2\cache|ivy|Local cache, https://oss.sonatype.org/content/repositories/releases|maven|sonatype-releases, http://maven.aliyun.com/nexus/content/groups/public/|maven|osc, https://oss.sonatype.org/content/repositories/snapshots|maven|sonatype-snapshots, https://repo1.maven.org/maven2/|maven|public" type="SBT_MODULE" version="4">
+<module external.linked.project.id="scala-build [file:/C:/Users/Matthew/IdeaProjects/practice-based-learning/]" external.linked.project.path="$MODULE_DIR$/../../scala-learning/project" external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" sbt.imports="SUB:DOLLAR4a770c87555d73f581b8.`algorithms`, SUB:DOLLAR4a770c87555d73f581b8.`concurrency`, SUB:DOLLAR4a770c87555d73f581b8.`functional`, SUB:DOLLAR4a770c87555d73f581b8.`root`, SUB:DOLLAR4a770c87555d73f581b8.`scala`, SUB:DOLLAR4a770c87555d73f581b8.`spark`, _root_.sbt.Keys._, _root_.sbt.ScriptedPlugin.autoImport._, _root_.sbt._, _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.ScriptedPlugin, _root_.sbt.plugins.SbtPlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbt.plugins.Giter8TemplatePlugin, _root_.scala.xml.{TopScope=&gt;SUB:DOLLARscope}" sbt.resolvers="C:\Users\Matthew\.ivy2\cache|ivy|Local cache, https://oss.sonatype.org/content/repositories/releases|maven|sonatype-releases, http://maven.aliyun.com/nexus/content/groups/public/|maven|osc, https://oss.sonatype.org/content/repositories/snapshots|maven|sonatype-snapshots, https://repo1.maven.org/maven2/|maven|public" type="SBT_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <output url="file://$MODULE_DIR$/../../spark-learning/project/target/idea-classes" />
-    <output-test url="file://$MODULE_DIR$/../../spark-learning/project/target/idea-test-classes" />
+    <output url="file://$MODULE_DIR$/../../scala-learning/project/target/idea-classes" />
+    <output-test url="file://$MODULE_DIR$/../../scala-learning/project/target/idea-test-classes" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../spark-learning/project">
-      <excludeFolder url="file://$MODULE_DIR$/../../spark-learning/project/project/target" />
-      <excludeFolder url="file://$MODULE_DIR$/../../spark-learning/project/target" />
+    <content url="file://$MODULE_DIR$/../../scala-learning/project">
+      <excludeFolder url="file://$MODULE_DIR$/../../scala-learning/project/project/target" />
+      <excludeFolder url="file://$MODULE_DIR$/../../scala-learning/project/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -106,7 +106,7 @@
     </orderEntry>
   </component>
   <component name="SbtModule">
-    <option name="buildForId" value="spark" />
+    <option name="buildForId" value="scala" />
     <option name="buildForURI" value="file:/$MODULE_DIR$/../../" />
     <option name="imports" value="SUB:DOLLAR4a770c87555d73f581b8.`algorithms`, SUB:DOLLAR4a770c87555d73f581b8.`concurrency`, SUB:DOLLAR4a770c87555d73f581b8.`functional`, SUB:DOLLAR4a770c87555d73f581b8.`root`, SUB:DOLLAR4a770c87555d73f581b8.`scala`, SUB:DOLLAR4a770c87555d73f581b8.`spark`, _root_.sbt.Keys._, _root_.sbt.ScriptedPlugin.autoImport._, _root_.sbt._, _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.ScriptedPlugin, _root_.sbt.plugins.SbtPlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbt.plugins.Giter8TemplatePlugin, _root_.scala.xml.{TopScope=&gt;SUB:DOLLARscope}" />
   </component>
