@@ -21,3 +21,4 @@ server.pid
 .cache
 ## add by matthew to remove the target directory in subprojects
 /*/target
+.idea/
