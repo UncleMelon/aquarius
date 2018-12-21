@@ -25,6 +25,10 @@ lazy val functional = (project in file("functional-features-learning"))
 lazy val spark = (project in file("spark-learning"))
   .settings(commonSettings)
   
- lazy val scala = (project in file("scala-learning"))
+lazy val scala = (project in file("scala-learning"))
+  .settings(commonSettings)
+
+
+lazy val java = (project in file("java-learning"))
   .settings(commonSettings)
 
