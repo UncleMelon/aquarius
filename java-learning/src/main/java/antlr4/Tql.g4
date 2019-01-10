@@ -5,13 +5,15 @@ AND:  A N D ;
 OR: O R ;
 GROUP: G R O U P ;
 BY: B Y ;
-MAX: M A X;
-SUM: S U M;
-AVG: A V G;
-MIN: M I N;
-COUNT: C O U N T;
+MAX: M A X ;
+SUM: S U M ;
+AVG: A V G ;
+MIN: M I N ;
+COUNT: C O U N T ;
 DATE_HISTOGRAM: D A T E SC H I S T O G R A M ;
-
+STARTOF: S T A R T O F ;
+ENDOF: E N D O F ;
+IN: I N ;
 fragment A      : [aA];
 fragment B      : [bB];
 fragment C      : [cC];
@@ -43,12 +45,12 @@ fragment HEX_DIGIT:                  [0-9A-F];
 fragment DEC_DIGIT:                  [0-9];
 fragment LETTER:                         [a-zA-Z];
 
-ID:  ( 'A'..'Z' | 'a'..'z' | '_' | '$' | ':' | '0'..'9' )+ ;        //ID必须字母开始
-TEXT_STRING :  (  'A'..'Z' | 'a'..'z' | '_' | '$' | ':' | '0'..'9' | '\u4E00'..'\u9FA5' | '\uF900'..'\uFA2D' )+ ;
+ID:  ( 'A'..'Z' | 'a'..'z' | '_' | '$' | '-' | ':' | '0'..'9' )+ ;        //ID必须字母开始
+TEXT_STRING :  (  'A'..'Z' | 'a'..'z' | '_' | '\'' | ':' | '0'..'9' | '-' | '\u4E00'..'\u9FA5' | '\uF900'..'\uFA2D' )+ ;
 columnName : ID ;
 textLiteral: TEXT_STRING;
 
-stat: whereClause groupByClause?
+stat: whereClause? groupByClause?
     ;
 
 whereClause
@@ -57,8 +59,9 @@ whereClause
 
 logicExpression
             : logicExpression logicOperator logicExpression      # logicOperation
-            | fullColumnName  comparisonOperator  value  # comparisonOperation
+            | fullColumnName  comparisonOperator value  # comparisonOperation
             | '(' logicExpression ')'  # parens
+            | fullColumnName IN '(' value (',' value)*  ')' # inOperation
             ;
 
 groupByClause
@@ -87,8 +90,10 @@ comparisonOperator
             ;
 
 value
-    : textLiteral
-    | columnName
+    : columnName '()'               # valueFunction
+    | tf=(STARTOF | ENDOF) '(' columnName (',' columnName)? ')'    # timeOfFunction
+    | columnName                    # asciiValue
+    | textLiteral                   # unicodeValue
     ;
 
 fullColumnName: columnName ;
