@@ -49,6 +49,13 @@ public interface TqlVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLogicOperation(TqlParser.LogicOperationContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code inOperation}
+	 * labeled alternative in {@link TqlParser#logicExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInOperation(TqlParser.InOperationContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code comparisonOperation}
 	 * labeled alternative in {@link TqlParser#logicExpression}.
 	 * @param ctx the parse tree
@@ -92,11 +99,33 @@ public interface TqlVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitComparisonOperator(TqlParser.ComparisonOperatorContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link TqlParser#value}.
+	 * Visit a parse tree produced by the {@code valueFunction}
+	 * labeled alternative in {@link TqlParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitValue(TqlParser.ValueContext ctx);
+	T visitValueFunction(TqlParser.ValueFunctionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code timeOfFunction}
+	 * labeled alternative in {@link TqlParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTimeOfFunction(TqlParser.TimeOfFunctionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code asciiValue}
+	 * labeled alternative in {@link TqlParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAsciiValue(TqlParser.AsciiValueContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code unicodeValue}
+	 * labeled alternative in {@link TqlParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUnicodeValue(TqlParser.UnicodeValueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link TqlParser#fullColumnName}.
 	 * @param ctx the parse tree

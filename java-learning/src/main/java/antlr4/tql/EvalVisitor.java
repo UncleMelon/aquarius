@@ -2,6 +2,7 @@ package antlr4.tql;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EvalVisitor extends TqlBaseVisitor {
 
@@ -30,6 +31,7 @@ public class EvalVisitor extends TqlBaseVisitor {
     public Object visitComparisonOperation(TqlParser.ComparisonOperationContext ctx) {
         Object column = visit(ctx.fullColumnName());
         Object value = visit(ctx.value());
+        System.out.println(value);
         Object op = visit(ctx.comparisonOperator());
         Filter filter = new Filter();
         filter.setColumn(column.toString());
@@ -104,19 +106,49 @@ public class EvalVisitor extends TqlBaseVisitor {
     @Override
     public Object visitGroupByClause(TqlParser.GroupByClauseContext ctx) {
         if (ctx.aggregateWindowedFunction() != null)   visit(ctx.aggregateWindowedFunction());
-        visit(ctx.byCaluse());
+        if (ctx.byCaluse() != null) visit(ctx.byCaluse());
         return null;
     }
 
     @Override
-    public Object visitValue(TqlParser.ValueContext ctx) {
-        if (ctx.textLiteral() != null) return visit(ctx.textLiteral());
-        if (ctx.columnName() != null) return visit(ctx.columnName());
+    public Object visitInOperation(TqlParser.InOperationContext ctx) {
+        List<String> values = ctx.value().stream().map(vc -> visit(vc).toString()).collect(Collectors.toList());
+        Object column = visit(ctx.fullColumnName());
+        Filter filter = new Filter();
+        filter.setColumn(column.toString());
+        filter.setOp(ctx.IN().getText());
+        filter.setRefData("[" + String.join(",", values) + "]");
+        filters.add(filter);
+        values.stream().forEach(v -> System.out.println(v));
         return null;
     }
 
     @Override
     public Object visitTextLiteral(TqlParser.TextLiteralContext ctx) {
         return ctx.TEXT_STRING().getText();
+    }
+
+    @Override
+    public Object visitValueFunction(TqlParser.ValueFunctionContext ctx) {
+        return ctx.columnName().ID().getText() + "()";
+    }
+
+    @Override
+    public Object visitTimeOfFunction(TqlParser.TimeOfFunctionContext ctx) {
+        String value0 = ctx.columnName(0).ID().getText();
+        String tfOperator = ctx.tf.getText();
+        if (ctx.columnName(1) == null) return tfOperator + "(" + value0 + ")";
+        String value1 = ctx.columnName(1).ID().getText();
+        return tfOperator + "(" + value0 + "," + value1 + ")";
+    }
+
+    @Override
+    public Object visitAsciiValue(TqlParser.AsciiValueContext ctx) {
+        return ctx.columnName().ID().getText();
+    }
+
+    @Override
+    public Object visitUnicodeValue(TqlParser.UnicodeValueContext ctx) {
+        return ctx.textLiteral().TEXT_STRING().getText();
     }
 }
