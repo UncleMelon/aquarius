@@ -38,4 +38,11 @@ public class Apple {
         this.weight = weight;
         this.price = price;
     }
+
+    public Apple() {
+    }
+
+    public Apple(Integer weight) {
+        this.weight = weight;
+    }
 }

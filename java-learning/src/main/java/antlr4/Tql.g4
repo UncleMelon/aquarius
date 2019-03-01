@@ -46,7 +46,7 @@ fragment DEC_DIGIT:                  [0-9];
 fragment LETTER:                         [a-zA-Z];
 
 ID:  ( 'A'..'Z' | 'a'..'z' | '_' | '$' | '-' | ':' | '0'..'9' )+ ;        //ID必须字母开始
-TEXT_STRING :  (  'A'..'Z' | 'a'..'z' | '_' | '\'' | ':' | '0'..'9' | '-' | '\u4E00'..'\u9FA5' | '\uF900'..'\uFA2D' )+ ;
+TEXT_STRING :  (  'A'..'Z' | 'a'..'z' | '_' | '\'' | ':' | '0'..'9' | '-' | '.' | '\u4E00'..'\u9FA5' | '\uF900'..'\uFA2D' )+ ;
 columnName : ID ;
 textLiteral: TEXT_STRING;
 
