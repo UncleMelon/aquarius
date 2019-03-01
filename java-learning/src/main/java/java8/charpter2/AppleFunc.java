@@ -2,6 +2,7 @@ package java8.charpter2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class AppleFunc {
@@ -25,6 +26,10 @@ public class AppleFunc {
                 filter(apples, (Apple apple) -> "red".equals(apple.getColor()));
         List<Integer> evenNumbers =
                 filter(Arrays.asList(1,2,3,4,5), (Integer i) -> i % 2 == 0);
+
+        //排序
+        apples.sort((Apple a1, Apple a2) -> a1.getWeight().compareTo(a2.getWeight()));
+        apples.sort(Comparator.comparing(Apple::getWeight));
     }
 
     public static void prettyPrintApple(List<Apple> inventory, AppleFormatter appleFormatter) {
