@@ -1,34 +1,61 @@
+name := "aquarius"
 
-name := "practice-based-learning"
-
-
-lazy val commonSettings = Seq(
-  organization := "com.wy",
-  version := "0.1.0-SNAPSHOT",
-  scalaVersion := "2.11.8"
-)
+mainClass in Compile := Some("exercises.Fibonacci")
 
 // Set aggregate so that the command sent to root is broadcast to webservice and dal too
-
 lazy val root = (project in file("."))
-  .aggregate(algorithms, concurrency, functional, spark, scala)
+  .aggregate(algorithms, concurrency, functional, spark)
 
-lazy val algorithms = (project in file("algorithms-learning"))
-  .settings(commonSettings)
+lazy val algorithms = Packaging.generateProject("algorithms")
+  .settings(libraryDependencies ++= Seq(
+    Dependencies.logback,
+    Dependencies.scalaReflect
+  ).flatten
+  )
+  .settings(Packaging.dockerSettings)
 
-lazy val concurrency = (project in file("concurrency-learning"))
-  .settings(commonSettings)
+lazy val concurrency = Packaging.generateProject("concurrency")
+  .settings(libraryDependencies ++= Seq(
+    Dependencies.logback,
+    Dependencies.scalaReflect,
+    Dependencies.utest
+  ).flatten
+  )
 
-lazy val functional = (project in file("functional-features-learning"))
-  .settings(commonSettings)
+lazy val functional = Packaging.generateProject("functional")
+  .settings(libraryDependencies ++= Seq(
+    Dependencies.logback,
+    Dependencies.scalaReflect,
+    Dependencies.utest
+  ).flatten
+  )
 
-lazy val spark = (project in file("spark-learning"))
-  .settings(commonSettings)
-  
-lazy val scala = (project in file("scala-learning"))
-  .settings(commonSettings)
+lazy val spark = Packaging.generateProject("spark")
+  .settings(libraryDependencies ++= Seq(
+    Dependencies.logback,
+    Dependencies.scalaReflect,
+    Dependencies.utest
+  ).flatten
+  )
 
+lazy val `scala-common` = Packaging.generateProject("scala-common")
+  .settings(libraryDependencies ++= Seq(
+    Dependencies.logback,
+    Dependencies.scalaReflect,
+    Dependencies.utest
+  ).flatten
+  )
 
-lazy val java = (project in file("java-learning"))
-  .settings(commonSettings)
+lazy val programming = Packaging.generateProject("programming")
+  .settings(libraryDependencies ++= Seq(
+    Dependencies.logback,
+    Dependencies.scalaReflect,
+    Dependencies.jmh,
+    Dependencies.fastparse,
+    Dependencies.circe,
+    Dependencies.antlr,
+    Dependencies.utest
+  ).flatten
+  )
+  .enablePlugins(JmhPlugin)
 
