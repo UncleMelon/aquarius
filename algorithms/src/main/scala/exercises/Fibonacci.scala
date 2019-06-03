@@ -17,7 +17,6 @@ object Fibonacci extends App {
 
   val fib = new Fibonacci()
   //F(100)
-  logger.info("start")
   println(fib.recursion(100))
   //到达1000位的数
   (0 to 100000).find(i => digits(fib.recursion(i)) == 1000)

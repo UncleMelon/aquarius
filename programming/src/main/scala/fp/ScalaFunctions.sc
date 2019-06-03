@@ -1,8 +1,13 @@
 import scala.annotation.tailrec
 
-def and(x: Boolean, y: Boolean): Boolean = if (x) y else false
+//infinite loop
+def loop: Boolean = loop
+
+def and(x: Boolean, y: => Boolean): Boolean = if (x) y else false
 
 def or(x: Boolean, y: Boolean): Boolean = if (x) true else y
+
+and(false, loop)
 
 
 def abs(x: Double) =  if (x >= 0) x else -x
