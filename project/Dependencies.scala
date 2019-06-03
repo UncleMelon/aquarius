@@ -20,6 +20,13 @@ object Dependencies {
   val circe = Seq(Library.`circe-core`, Library.`circe-generic`, Library.`circe-parser`)
 
   val antlr = Seq(Library.antlr)
+
+  val prometheus = Seq(Library.`prometheus-simpleclient-hotspot`, Library.`prometheus-simpleclient-httpserver`,
+    Library.`prometheus-simpleclient`, Library.`prometheus-simpleclient-pushgateway`)
+  
+  val influxdb = Seq(Library.`influxdb-java`)
+  
+  val flink = Seq(Library.`flink-clients`, Library.`flink-streaming-java`)
   
   val exclude = Seq(
     "org.slf4j" % "slf4j-log4j12",
@@ -67,6 +74,20 @@ object Library {
   val `circe-generic` = "io.circe" %% "circe-generic" % Version.circe
 
   val `circe-parser` = "io.circe" %% "circe-parser" % Version.circe
+
+  val `prometheus-simpleclient` =  "io.prometheus" % "simpleclient" % Version.prometheus
+
+  val `prometheus-simpleclient-hotspot` =  "io.prometheus" % "simpleclient_hotspot" % Version.prometheus
+
+  val `prometheus-simpleclient-httpserver` =  "io.prometheus" % "simpleclient_httpserver" % Version.prometheus
+
+  val `prometheus-simpleclient-pushgateway` = "io.prometheus" % "simpleclient_pushgateway" % Version.prometheus
+
+  val `influxdb-java` = "org.influxdb" % "influxdb-java" % Version.`influxdb-java`
+
+  val `flink-clients` = "org.apache.flink" %% "flink-clients" % Version.flink
+  
+  val `flink-streaming-java` = "org.apache.flink" %% "flink-streaming-java" % Version.flink
 }
 
 object Version {
@@ -91,9 +112,15 @@ object Version {
 
   val jmh = "1.21"
 
-  val antlr = "4.7.1"
+  val antlr = "4.7.2"
 
   val fastparse = "2.1.0"
 
   val circe = "0.10.0"
+
+  val prometheus = "0.6.0"
+
+  val `influxdb-java` = "2.15"
+  
+  val flink = "1.8.0"
 }

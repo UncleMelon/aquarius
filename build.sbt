@@ -38,6 +38,16 @@ lazy val spark = Packaging.generateProject("spark")
   ).flatten
   )
 
+
+lazy val flink = Packaging.generateProject("flink")
+  .settings(libraryDependencies ++= Seq(
+    Dependencies.logback,
+    Dependencies.scalaReflect,
+    Dependencies.flink,
+    Dependencies.utest
+  ).flatten
+  )
+
 lazy val `scala-common` = Packaging.generateProject("scala-common")
   .settings(libraryDependencies ++= Seq(
     Dependencies.logback,
@@ -54,6 +64,8 @@ lazy val programming = Packaging.generateProject("programming")
     Dependencies.fastparse,
     Dependencies.circe,
     Dependencies.antlr,
+    Dependencies.prometheus,
+    Dependencies.influxdb,
     Dependencies.utest
   ).flatten
   )
