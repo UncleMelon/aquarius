@@ -1,5 +1,5 @@
 // Generated from /Users/matthew_wu/Documents/IdeaProjects/aquarius/programming/src/main/java/antlr4/Tql.g4 by ANTLR 4.7
-package antlr4;
+package antlr4.tql;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -23,18 +23,6 @@ public class TqlBaseListener implements TqlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitColumnName(TqlParser.ColumnNameContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterTextLiteral(TqlParser.TextLiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitTextLiteral(TqlParser.TextLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

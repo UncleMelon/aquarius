@@ -41,17 +41,19 @@ fragment X      : [xX];
 fragment Y      : [yY];
 fragment Z      : [zZ];
 fragment SC      : [_];
-fragment HEX_DIGIT:                  [0-9A-F];
 fragment DEC_DIGIT:                  [0-9];
 fragment LETTER:                         [a-zA-Z];
 
-ID:  ( 'A'..'Z' | 'a'..'z' | '_' | '$' | '-' | ':' | '0'..'9' )+ ;        //ID必须字母开始
-CHINESE_SYMBOL:  ( '\u3002' | '\uFF1F' | '\uFF01' | '\uFF0C' | '\u3001' | '\uFF1B' | '\uFF1A' | '\u2018' | '\u2019' | '\u201C' | '\u201D' | '\uFF08' | '\uFF09' | '\u3010' | '\u3011' ) ;
-CHINESE_CHAR: ( '\u4E00'..'\u9FA5' | '\uF900'..'\uFA2D' ) ;
-ENGLISH_SYMBOL:  ( '_' | '\'' | ':' | ';' | '.' | '"' | '?' | '/' | '!' | '@' | '#' | '$' | '%' | '^' | '-' | '+' | '*' | '\\' ) ;
-TEXT_STRING :  ( 'A'..'Z' | 'a'..'z' | '0'..'9' | ENGLISH_SYMBOL | CHINESE_CHAR | CHINESE_SYMBOL )+ ;
+ID:  ( DEC_DIGIT | LETTER |  '_' | '$' | '-' | ':' | '@' | '#' )+ ;        //ID必须字母开始
+
+fragment
+TEXT_STRING :  ( DEC_DIGIT | LETTER |
+                '_' | ':' | ';' | '.' | '?' | '/' | '!' | '@' | '#' | '$' | '%' | '^' | '-' | '+' | '*' | '\\' |    // 英文符号
+                '\u4E00'..'\u9FA5' | '\uF900'..'\uFA2D'  |                  // 中文字符
+                '\u3002' | '\uFF1F' | '\uFF01' | '\uFF0C' | '\u3001' | '\uFF1B' | '\uFF1A' | '\u2018' | '\u2019' | '\u201C' | '\u201D' | '\uFF08' | '\uFF09' | '\u3010' | '\u3011'  //中文符号
+               )+ ;
+
 columnName : ID ;
-textLiteral: TEXT_STRING;
 
 stat: whereClause? groupByClause?
     ;
@@ -96,12 +98,17 @@ value
     : columnName '()'               # valueFunction
     | tf=(STARTOF | ENDOF) '(' columnName (',' columnName)? ')'    # timeOfFunction
     | columnName                    # asciiValue
-    | textLiteral                   # unicodeValue
+    | L_S_STRING                   # unicodeValue
     ;
+
+
+L_S_STRING  : '\'' (('\'' '\'') | ('\\' '\'') | ~('\''))* '\'' ;
+
 
 fullColumnName: columnName ;
 functionArg:  columnName ;
 field: columnName ;
 interval: columnName ;
+
 
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines

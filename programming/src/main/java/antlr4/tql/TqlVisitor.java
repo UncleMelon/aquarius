@@ -1,4 +1,4 @@
-// Generated from /Users/matthew_wu/Documents/IdeaProjects/practice-based-learning/java-learning/src/main/java/antlr4/Tql.g4 by ANTLR 4.7
+// Generated from /Users/matthew_wu/Documents/IdeaProjects/aquarius/programming/src/main/java/antlr4/Tql.g4 by ANTLR 4.7
 package antlr4.tql;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -16,12 +16,6 @@ public interface TqlVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitColumnName(TqlParser.ColumnNameContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link TqlParser#textLiteral}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTextLiteral(TqlParser.TextLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link TqlParser#stat}.
 	 * @param ctx the parse tree
