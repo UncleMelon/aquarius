@@ -7,16 +7,16 @@ trait Increasable[T] {
 object Increasable {
 
   implicit object IncreasableInt extends Increasable[Int] {
-    def inc(t: Int) = t + 1
+    def inc(t: Int): Int = t + 1
   }
 
   implicit object IncreasableString extends Increasable[String] {
-    def inc(t: String) = t + t
+    def inc(t: String): String = t + t
   }
 
 }
 
-def inc[T: Increasable](list: List[T]) = {
+def inc[T: Increasable](list: List[T]): List[T] = {
   val ev = implicitly[Increasable[T]]
   list.map(ev.inc)
 }

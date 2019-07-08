@@ -1,5 +1,5 @@
 // Generated from /Users/matthew_wu/Documents/IdeaProjects/aquarius/programming/src/main/java/antlr4/Tql.g4 by ANTLR 4.7
-package antlr4;
+package antlr4.tql;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -17,16 +17,6 @@ public interface TqlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitColumnName(TqlParser.ColumnNameContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TqlParser#textLiteral}.
-	 * @param ctx the parse tree
-	 */
-	void enterTextLiteral(TqlParser.TextLiteralContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TqlParser#textLiteral}.
-	 * @param ctx the parse tree
-	 */
-	void exitTextLiteral(TqlParser.TextLiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TqlParser#stat}.
 	 * @param ctx the parse tree

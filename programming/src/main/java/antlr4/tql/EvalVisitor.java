@@ -124,11 +124,6 @@ public class EvalVisitor extends TqlBaseVisitor {
     }
 
     @Override
-    public Object visitTextLiteral(TqlParser.TextLiteralContext ctx) {
-        return ctx.TEXT_STRING().getText();
-    }
-
-    @Override
     public Object visitValueFunction(TqlParser.ValueFunctionContext ctx) {
         return ctx.columnName().ID().getText() + "()";
     }
@@ -149,6 +144,7 @@ public class EvalVisitor extends TqlBaseVisitor {
 
     @Override
     public Object visitUnicodeValue(TqlParser.UnicodeValueContext ctx) {
-        return ctx.textLiteral().TEXT_STRING().getText();
+        int length = ctx.L_S_STRING().getText().length();
+        return ctx.L_S_STRING().getText().substring(1, length-1);
     }
 }
