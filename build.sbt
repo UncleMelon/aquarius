@@ -18,7 +18,12 @@ lazy val concurrency = Packaging.generateProject("concurrency")
   .settings(libraryDependencies ++= Seq(
     Dependencies.logback,
     Dependencies.scalaReflect,
-    Dependencies.utest
+    Dependencies.utest,
+    Dependencies.rxscala,
+    Dependencies.akka,
+    Dependencies.slick,
+    Dependencies.mongo,
+    Dependencies.circe
   ).flatten
   )
 
