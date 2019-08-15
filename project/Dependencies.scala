@@ -39,7 +39,10 @@ object Dependencies {
     Library.`akka-stream-kafka`,
     Library.`kafka-clients`,
     Library.`akka-stream-alpakka-slick`,
-    Library.`akka-http`)
+    Library.`akka-http`,
+    Library.`akka-actor-typed`)
+
+  val fastjson = Seq(Library.fastjson)
 
   val mongo = Seq(Library.`mongodb-driver`)
 
@@ -127,6 +130,8 @@ object Library {
   val postgresql = "org.postgresql" % "postgresql" % "9.4.1212"
 
   val `mongodb-driver` = "org.mongodb" % "mongodb-driver" % "3.10.2"
+
+  val `akka-actor-typed` = "com.typesafe.akka" %% "akka-actor-typed" % Version.akka
 }
 
 object Version {
@@ -165,7 +170,7 @@ object Version {
 
   val rxscala = "0.26.5"
 
-  val akka = "2.5.23"
+  val akka = "2.5.24"
 
   val kafka = "1.1.1"
 
