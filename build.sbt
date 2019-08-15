@@ -71,6 +71,7 @@ lazy val programming = Packaging.generateProject("programming")
     Dependencies.antlr,
     Dependencies.prometheus,
     Dependencies.influxdb,
+    Dependencies.fastjson,
     Dependencies.utest
   ).flatten
   )

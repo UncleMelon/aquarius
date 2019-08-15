@@ -16,6 +16,7 @@ public class LruTest1 {
     public static void main(String[] args) {
         int size = 5;
 
+        @SuppressWarnings("serial")
         Map<String, String> map = new LinkedHashMap<String, String>(size, .75F, true) {
 
             @Override
@@ -25,6 +26,15 @@ public class LruTest1 {
                     System.out.println("最近最少使用的key=" + eldest.getKey());
                 }
                 return tooBig;
+            }
+
+            @Override
+            public String toString() {
+                StringBuilder sb = new StringBuilder();
+                for (Map.Entry<String, String> entry : entrySet()) {
+                    sb.append(String.format("%s:%s ", entry.getKey(), entry.getValue()));
+                }
+                return sb.toString();
             }
         };
 
@@ -42,3 +52,11 @@ public class LruTest1 {
         System.out.println(map.toString());
     }
 }
+
+
+/*
+在JVM中Ehcache的缓存策略包含
+    1  LRU - least recently used（最近最少使用）
+    2  LFU - least frequently used（最不经常使用）
+    3  FIFO - first in first out, the oldest element by creation time（清除最早缓存的数据，不关心是否经常使用）
+*/
