@@ -3,7 +3,7 @@ import java.nio.file.Paths
 
 import akka.NotUsed
 import akka.actor.ActorSystem
-import akka.stream.scaladsl.{FileIO, Flow, Keep, Sink, Source}
+import akka.stream.scaladsl.{FileIO, Flow, Keep, RunnableGraph, Sink, Source}
 import akka.stream.{ActorMaterializer, IOResult}
 import akka.util.ByteString
 
@@ -105,4 +105,21 @@ object QuickStart5 extends App {
     .mapConcat(identity)
     .map(_.name.toUpperCase)
     .runWith(Sink.foreach(println))
+}
+
+
+object QuickStart6 extends App {
+  implicit val system = ActorSystem("test")
+  implicit val materializer = ActorMaterializer()
+  implicit val ec = system.dispatcher
+
+  val source = Source(1 to 10)
+  val sink = Sink.fold[Int, Int](0)(_ + _)
+
+  val runnable = source.toMat(sink)(Keep.right)
+
+  val sum = runnable.run()
+
+  sum.foreach(println)
+  sum.foreach(println)
 }
