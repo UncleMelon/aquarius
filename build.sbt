@@ -39,9 +39,12 @@ lazy val spark = Packaging.generateProject("spark")
   .settings(libraryDependencies ++= Seq(
     Dependencies.logback,
     Dependencies.scalaReflect,
+    Dependencies.spark,
     Dependencies.utest
   ).flatten
   )
+  .enablePlugins(JvmPlugin)
+  .enablePlugins(JavaAppPackaging)
 
 
 lazy val flink = Packaging.generateProject("flink")

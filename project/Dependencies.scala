@@ -40,13 +40,16 @@ object Dependencies {
     Library.`kafka-clients`,
     Library.`akka-stream-alpakka-slick`,
     Library.`akka-http`,
-    Library.`akka-actor-typed`)
+    Library.`akka-actor-typed`,
+    Library.`akka-stream-alpakka-hdfs`)
 
   val fastjson = Seq(Library.fastjson)
 
   val mongo = Seq(Library.`mongodb-driver`)
 
   val slick = Seq(Library.slick, Library.`slick-hikaricp`, Library.postgresql)
+  
+  val spark = Seq(Library.`spark-core`, Library.`spark-sql`, Library.`spark-yarn`)
 
   val exclude = Seq(
     "org.slf4j"                % "slf4j-log4j12",
@@ -127,11 +130,19 @@ object Library {
 
   val `akka-stream-alpakka-slick` = "com.lightbend.akka" %% "akka-stream-alpakka-slick" % "1.1.0"
 
+  val `akka-stream-alpakka-hdfs` = "com.lightbend.akka" %% "akka-stream-alpakka-hdfs" % "1.1.1"
+
   val postgresql = "org.postgresql" % "postgresql" % "9.4.1212"
 
   val `mongodb-driver` = "org.mongodb" % "mongodb-driver" % "3.10.2"
 
   val `akka-actor-typed` = "com.typesafe.akka" %% "akka-actor-typed" % Version.akka
+  
+  val `spark-core` = "org.apache.spark" %% "spark-core" % "2.4.3"
+  
+  val `spark-sql`  = "org.apache.spark" %% "spark-sql" % "2.4.3"
+  
+  val `spark-yarn` = "org.apache.spark" %% "spark-yarn" % "2.4.3"
 }
 
 object Version {
