@@ -40,6 +40,7 @@ lazy val spark = Packaging.generateProject("spark")
     Dependencies.logback,
     Dependencies.scalaReflect,
     Dependencies.spark,
+    Dependencies.spring,
     Dependencies.utest
   ).flatten
   )
