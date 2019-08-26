@@ -50,6 +50,8 @@ object Dependencies {
   val slick = Seq(Library.slick, Library.`slick-hikaricp`, Library.postgresql)
   
   val spark = Seq(Library.`spark-core`, Library.`spark-sql`, Library.`spark-yarn`)
+  
+  val spring = Seq(Library.`spring-context`)
 
   val exclude = Seq(
     "org.slf4j"                % "slf4j-log4j12",
@@ -143,6 +145,8 @@ object Library {
   val `spark-sql`  = "org.apache.spark" %% "spark-sql" % "2.4.3"
   
   val `spark-yarn` = "org.apache.spark" %% "spark-yarn" % "2.4.3"
+
+  val `spring-context` = "org.springframework" % "spring-context" % "5.1.9.RELEASE"
 }
 
 object Version {

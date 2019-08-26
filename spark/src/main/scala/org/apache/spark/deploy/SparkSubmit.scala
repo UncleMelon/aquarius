@@ -17,13 +17,17 @@
 
 package org.apache.spark.deploy
 
+import java.io.File
 import java.lang.reflect.{InvocationTargetException, UndeclaredThrowableException}
 import java.net.URL
 
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark._
 import org.apache.spark.internal.Logging
 import org.apache.spark.internal.config._
 import org.apache.spark.util._
+import sync.PathSyncer.sync
 
 import scala.annotation.tailrec
 import scala.collection.mutable.ArrayBuffer
@@ -51,7 +55,7 @@ class MySparkSubmit extends Logging {
    def submit(): Unit = {
     val childArgs = ArrayBuffer.empty
     val childClasspath = new ArrayBuffer[String]()
-    childClasspath.append("file:/Users/matthew_wu/Documents/IdeaProjects/aquarius/spark/target/universal/stage/lib/com.wy.spark-0.1.1.jar")
+//    childClasspath.append("file:/Users/matthew_wu/Documents/IdeaProjects/aquarius/spark/target/universal/stage/lib/com.wy.spark-0.1.1.jar")
     val sparkConf = new SparkConf()
     sparkConf.setIfMissing("spark.executor.memory", "512m")
     sparkConf.setIfMissing("spark.driver.memory", "512m")
@@ -60,15 +64,23 @@ class MySparkSubmit extends Logging {
     sparkConf.setIfMissing("spark.executor.cores", "1")
     sparkConf.setIfMissing("spark.submit.deployMode", "client")
     sparkConf.setIfMissing("spark.executor.instances", "1")
-//    sparkConf.setIfMissing("spark.jars", "file:/Users/matthew_wu/Documents/IdeaProjects/aquarius/spark/target/universal/stage/lib/com.wy.spark-0.1.1.jar")
+
+     val conf: Configuration = new Configuration()
+     conf.set("fs.defaultFS", "hdfs://192.168.0.22:8020")
+     conf.setBoolean("fs.hdfs.impl.disable.cache", true)
+     implicit val fs = FileSystem.get(conf)
+     sync(new File("/Users/matthew_wu/Documents/IdeaProjects/aquarius/spark/target/universal/stage/lib"), new Path("/user/spark/matthew/jars"))
 
     sparkConf.setIfMissing("spark.hadoop.yarn.resourcemanager.hostname", "192.168.0.22")
     sparkConf.setIfMissing("spark.hadoop.yarn.resourcemanager.address", "192.168.0.22:8032")
     sparkConf.setIfMissing("spark.hadoop.fs.defaultFS", "hdfs://192.168.0.22:8020/")
     sparkConf.setIfMissing("spark.hadoop.mapreduce.framework.name", "yarn")
 
+     val hdfs_conf = SparkHadoopUtil.get.newConfiguration(sparkConf)
+     val hdfs = FileSystem.get(hdfs_conf)
+
     sparkConf.setIfMissing("spark.yarn.jars", "hdfs://192.168.0.22:8020/user/spark/matthew/jars/*.jar")
-    val childMainClass = "stream.SparkPi"
+    val childMainClass = "driver.SparkPi"
     runMain(childArgs, childClasspath, sparkConf, childMainClass, true)
 
   }
