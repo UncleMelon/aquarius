@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder" charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} [%line] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 至多只能配置一个root -->
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
