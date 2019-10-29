@@ -41,7 +41,8 @@ object Dependencies {
     Library.`akka-stream-alpakka-slick`,
     Library.`akka-http`,
     Library.`akka-actor-typed`,
-    Library.`akka-stream-alpakka-hdfs`)
+    Library.`akka-stream-alpakka-hdfs`,
+    Library.`akka-slf4j`)
 
   val fastjson = Seq(Library.fastjson)
 
@@ -121,6 +122,8 @@ object Library {
   val `akka-actor` = "com.typesafe.akka" %% "akka-actor" % Version.akka
 
   val `akka-stream` = "com.typesafe.akka" %% "akka-stream" % Version.akka
+  
+  val `akka-slf4j` = "com.typesafe.akka" %% "akka-slf4j" % Version.akka
 
   val `akka-stream-kafka` = "com.typesafe.akka" %% "akka-stream-kafka" % "1.0.4"
 

@@ -12,15 +12,15 @@ import akka.stream.ActorMaterializer
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
 import io.circe.syntax._
 import io.circe.{Decoder, ObjectEncoder}
-import myakkastream.Server.StandardResponse
+import myakkastream.HttpServer.StandardResponse
 
 import scala.collection.immutable.Seq
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.concurrent.duration._
-import scala.util.{Failure, Success}
+import scala.util.{Failure, Success, Try}
 
-object Server {
+object HttpServer {
 
   case class StandardResponse(status: String, code: Int, data: Option[String] = None)
 
@@ -32,29 +32,33 @@ object Server {
     })
   }
 
-  def apply(streams: Consumer.DrainingControl[Seq[Done]]): Server = new Server(streams)
+  def apply(streams: Seq[(String, Consumer.DrainingControl[Done])])(
+    implicit system: ActorSystem,
+    materializer: ActorMaterializer): HttpServer = new HttpServer(streams)
 }
 
-class Server(streams: Consumer.DrainingControl[Seq[Done]]) {
+class HttpServer(streams: Seq[(String, Consumer.DrainingControl[Done])])(
+  implicit system: ActorSystem,
+  materializer: ActorMaterializer) {
 
-  implicit val system       = ActorSystem("system")
-  implicit val materializer = ActorMaterializer()
-  private val service       = new Service(streams)
-  private val OK            = 200
-  private val ERROR         = 503
+  private val logger  = org.slf4j.LoggerFactory.getLogger(this.getClass)
+  private val service = new Service(streams)
+  private val OK      = 200
+  private val ERROR   = 503
 
   def start() = {
 
     val route = path("health") {
       get {
         onComplete(service.healthCheck()) {
-          case Success(_) => complete(StandardResponse("OUT_OF_SERVICE", ERROR).asJson.noSpaces)
-          case Failure(_) => complete(StandardResponse("UP", OK).asJson.noSpaces)
+          case Success(_) => complete(StandardResponse("UP", OK).asJson.noSpaces)
+          case Failure(v) =>
+            complete(StandardResponse(s"Data Flow ${v.getMessage} is OUT_OF_SERVICE", ERROR).asJson.noSpaces)
         }
       }
     }
-
     Http().bindAndHandle(route, "0.0.0.0", 8080)
+    logger.info(s"server started at 8080")
   }
 
   def stop() = {
@@ -63,17 +67,31 @@ class Server(streams: Consumer.DrainingControl[Seq[Done]]) {
   }
 }
 
-class Service(streams: Consumer.DrainingControl[Seq[Done]])(implicit system: ActorSystem) {
+class Service(streams: Seq[(String, Consumer.DrainingControl[Done])])(implicit system: ActorSystem) {
 
+  private val logger   = org.slf4j.LoggerFactory.getLogger(this.getClass)
   implicit val timeout = 1 second
 
-  def healthCheck(): Future[Done] = {
-    implicit class FutureExtensions[T](f: Future[T]) {
-      def withTimeout(timeout: => Throwable)(implicit duration: FiniteDuration, system: ActorSystem): Future[T] = {
-        Future firstCompletedOf Seq(f, after(duration, system.scheduler)(Future.failed(timeout)))
-      }
+  def healthCheck(): Future[Seq[Done]] = {
+    val futures = streams.map {
+      case (_, control) => control.isShutdown.withTimeout(new TimeoutException("Future timed out!"))
     }
-    streams.isShutdown withTimeout new TimeoutException("Future timed out!")
+    Future
+      .sequence(futures.map(_.transform(Try(_))))
+      .map(_.zipWithIndex.collect {
+        case (Success(_), index) => {
+          val streamName = streams(index)._1
+          logger.error(s"data flow $streamName is down...")
+          throw new RuntimeException(streamName)
+        }
+        case (Failure(_), _) => Done
+      })
+  }
+
+  implicit class FutureExtensions[T](f: Future[T]) {
+
+    def withTimeout(timeout: => Throwable)(implicit duration: FiniteDuration, system: ActorSystem): Future[T] =
+      Future.firstCompletedOf(Seq(f, after(duration, system.scheduler)(Future.failed(timeout))))
   }
 }
 

@@ -6,6 +6,9 @@ import akka.kafka.scaladsl.Consumer.DrainingControl
 import akka.kafka.scaladsl.{Committer, Consumer, Producer}
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{Keep, Sink}
+import myakkastream.AkkaKafkaConsumer2.committerSettings
+import myakkastream.AkkaKafkaConsumer3.{committerSettings, consumerSettings}
+import myakkastream.AkkaKafkaConsumer4.committerSettings
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.serialization.{StringDeserializer, StringSerializer}
@@ -90,6 +93,12 @@ object AkkaKafkaConsumer2 extends App {
       .run()
 }
 
+
+/**
+  * 如果通过group id做load balance， 需要写全broker的list
+  * @param
+  * @return
+  **/
 object AkkaKafkaConsumer3 extends App {
   implicit val system = ActorSystem("kafka-test")
   implicit val materializer = ActorMaterializer()
@@ -98,11 +107,65 @@ object AkkaKafkaConsumer3 extends App {
   val committerSettings = CommitterSettings(system)
   val consumerSettings =
     ConsumerSettings(config, new StringDeserializer, new StringDeserializer)
-      .withBootstrapServers("192.168.0.29:39092")
+      .withBootstrapServers("192.168.0.29:29092,192.168.0.29:39092,192.168.0.29:49092")
       .withGroupId("akka-kafka-test")
       .withProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
-  Consumer.plainSource(consumerSettings, Subscriptions.topics("gta_events"))
-    .mapAsync(1){ msg => Future(msg.offset() + ": "+ msg.value())}
+  Consumer.committableSource(consumerSettings, Subscriptions.topics("mongo_test_teambition_tasks"))
     .throttle(1, 1 seconds)
-    .runWith(Sink.foreach(println))
+    .mapAsync(1){ msg => Future(println(msg.record.offset() + ":" + msg.record.partition())).map(_ => msg.committableOffset)}
+    .via(Committer.flow(committerSettings.withMaxBatch(1)))
+    .toMat(Sink.seq)(Keep.both)
+    .mapMaterializedValue(DrainingControl.apply)
+    .run()
+}
+
+object AkkaKafkaConsumer4 extends App {
+  implicit val system = ActorSystem("kafka-test")
+  implicit val materializer = ActorMaterializer()
+  implicit val ec = system.dispatcher
+  val config = system.settings.config.getConfig("akka.kafka.consumer")
+  val committerSettings = CommitterSettings(system)
+  val consumerSettings =
+    ConsumerSettings(config, new StringDeserializer, new StringDeserializer)
+      .withBootstrapServers("192.168.0.29:29092,192.168.0.29:39092,192.168.0.29:49092")
+      .withGroupId("akka-kafka-test")
+      .withProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
+  Consumer.committableSource(consumerSettings, Subscriptions.topics("mongo_test_teambition_tasks"))
+    .throttle(1, 1 seconds)
+    .mapAsync(1){ msg => Future(println(msg.record.offset() + ":" + msg.record.partition())).map(_ => msg.committableOffset)}
+    .via(Committer.flow(committerSettings.withMaxBatch(1)))
+    .toMat(Sink.seq)(Keep.both)
+    .mapMaterializedValue(DrainingControl.apply)
+    .run()
+}
+
+/**
+ * batch handling
+ * @param
+ * @return
+ **/
+object AkkaKafkaConsumer5 extends App {
+  implicit val system = ActorSystem("kafka-test")
+  implicit val materializer = ActorMaterializer()
+  implicit val ec = system.dispatcher
+  val config = system.settings.config.getConfig("akka.kafka.consumer")
+  val committerSettings = CommitterSettings(system)
+  val consumerSettings =
+    ConsumerSettings(config, new StringDeserializer, new StringDeserializer)
+      .withBootstrapServers("192.168.0.29:29092,192.168.0.29:39092,192.168.0.29:49092")
+      .withGroupId("akka-kafka-test")
+      .withProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
+  Consumer.committableSource(consumerSettings, Subscriptions.topics("mongo_test_teambition_tasks"))
+    .groupedWithin(3, 10.seconds)
+    .mapAsync(1){ msgs => Future( msgs.map{ msg =>
+      print(msg.record.offset() + ":" + msg.record.partition() + " ")
+      msg}).map(v => {
+      println()
+      v.last.committableOffset
+    })
+    }
+    .via(Committer.flow(committerSettings.withMaxBatch(1)))
+    .toMat(Sink.seq)(Keep.both)
+    .mapMaterializedValue(DrainingControl.apply)
+    .run()
 }

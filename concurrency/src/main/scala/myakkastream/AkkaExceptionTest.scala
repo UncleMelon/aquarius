@@ -97,6 +97,4 @@ object AkkaExceptionTest2 extends App {
     .toMat(Sink.seq)(Keep.both)
     .mapMaterializedValue(DrainingControl.apply)
     .run()
-
-  Server(control).start()
 }
